@@ -49,10 +49,12 @@ We will describe the points to keep in mind for various functions.
 ・ユーザ追加・削除・編集 : 簡単なバリデーションのみ実装しています。反映内容は自動で切り替わります。  
 ・三目並べ：Angular上で書いています。特にSpringBoot側と通信はしません。  
   
-  
-  
+
 If you have any questions, please ask! I will answer as much as possible! !!  
 Thank you for visiting this repository  
   
 分からないことがあれば質問して下さい！可能な範囲で答えます！！  
 このリポジトリを見てくれてありがとうございました　  
+
+## Licence
+MIT
