@@ -1,0 +1,66 @@
+<div class="container" id="main-container">
+  <div class="row">
+    <div class="col-sm-9 col-md-8 col-lg-9">
+      <div class="bring-front">
+        <p class="h1 text-center">三目並べ</p>
+        <div class="text-center p-4">
+          <button
+            *ngIf="winner || draw"
+            (click)="resetGame()"
+            class="reset-btn btn btn-primary"
+          >
+            <span>リセット</span>
+          </button>
+        </div>
+        <div class="p-2"></div>
+        <table>
+          <tr>
+            <td (click)="move(0,0)">
+              <div *ngIf="board[0][0] == 'x'" id="cross"></div>
+              <div *ngIf="board[0][0] == 'o'" id="circle"></div>
+            </td>
+            <td (click)="move(0,1)">
+              <div *ngIf="board[0][1] == 'x'" id="cross"></div>
+              <div *ngIf="board[0][1] == 'o'" id="circle"></div>
+            </td>
+            <td (click)="move(0,2)">
+              <div *ngIf="board[0][2] == 'x'" id="cross"></div>
+              <div *ngIf="board[0][2] == 'o'" id="circle"></div>
+            </td>
+          </tr>
+          <tr>
+            <td (click)="move(1,0)">
+              <div *ngIf="board[1][0] == 'x'" id="cross"></div>
+              <div *ngIf="board[1][0] == 'o'" id="circle"></div>
+            </td>
+            <td (click)="move(1,1)">
+              <div *ngIf="board[1][1] == 'x'" id="cross"></div>
+              <div *ngIf="board[1][1] == 'o'" id="circle"></div>
+            </td>
+            <td (click)="move(1,2)">
+              <div *ngIf="board[1][2] == 'x'" id="cross"></div>
+              <div *ngIf="board[1][2] == 'o'" id="circle"></div>
+            </td>
+          </tr>
+          <tr>
+            <td (click)="move(2,0)">
+              <div *ngIf="board[2][0] == 'x'" id="cross"></div>
+              <div *ngIf="board[2][0] == 'o'" id="circle"></div>
+            </td>
+            <td (click)="move(2,1)">
+              <div *ngIf="board[2][1] == 'x'" id="cross"></div>
+              <div *ngIf="board[2][1] == 'o'" id="circle"></div>
+            </td>
+            <td (click)="move(2,2)">
+              <div *ngIf="board[2][2] == 'x'" id="cross"></div>
+              <div *ngIf="board[2][2] == 'o'" id="circle"></div>
+            </td>
+          </tr>
+        </table>
+        <div class="text-center">
+          <p class="h3" *ngIf="winnerStr">{{winnerStr}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

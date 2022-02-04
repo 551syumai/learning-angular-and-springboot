@@ -1,0 +1,6 @@
+FROM node:14.16.1-alpine3.12
+WORKDIR /projects
+RUN npm install @angular-devkit/build-angular
+RUN npm install -g @angular/cli
+
+EXPOSE 4200

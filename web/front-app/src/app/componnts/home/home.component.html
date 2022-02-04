@@ -1,0 +1,14 @@
+<div class="container" id="main-container">
+    <div class="card">
+      <div class="card-header">
+        ログイン情報
+      </div>
+      <div class="card-body">
+        <ul>
+          <li><strong>ユーザ名</strong> - {{ userData?.name || 'null'}}</li>
+          <li><strong>メールアドレス</strong> - {{ userData?.email || 'null'}}</li>
+          <li><strong>トークン</strong> - {{ userData?.accessToken}}</li>
+        </ul>
+      </div>
+    </div>
+</div>
