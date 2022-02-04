@@ -1,0 +1,143 @@
+<div class="container" id="main-container">
+  <div>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row mb-1">
+                <div class="col-sm-9">
+                    <button (click)="openAddModal()" type="button" class="btn btn-info add-new">ユーザ登録</button>
+                </div>
+                <div class="col-sm-3 pull-right">
+                  <form class="form-inline my-2 my-lg-0">
+                    <input type="search" (ngModelChange)="searchUsers(key.value)" #key="ngModel" ngModel
+                     name="key" id="searchName" class="form-control mr-sm-2" placeholder="検索(名前)" required>
+                  </form>
+                </div>
+            </div>
+        </div>
+        <table *ngIf="users?.length != 0" class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">No.</th>
+              <th scope="col">ユーザID</th>
+              <th scope="col">名前</th>
+              <th scope="col">パスワード</th>
+              <th scope="col">メールアドレス</th>
+              <th scope="col">最終ログイン日時</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users; index as i">
+                <th scope="row">{{ user?.id }}</th>
+                <td>{{ user?.userCode }}</td>
+                <td>{{ user?.name }}</td>
+                <td>{{ user?.pass }}</td>
+                <td>{{ user?.email }}</td>
+                <td>{{ user?.lastLoginDate }}</td>
+                <td>
+                  <button (click)="openEditModal(user)" type="button" class="btn btn-primary mr-2" data-original-title="Edit">編集</button>
+                  <button (click)="openDeleteModal(user)" type="button" class="btn btn-secondary" data-original-title="Delete">削除</button>
+                </td>
+              </tr>
+          </table>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addUserModalLabel">ユーザ追加</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form #addForm="ngForm" (ngSubmit)="onAddUser(addForm)">
+            <div class="form-group">
+              <label for="name">名前</label>
+              <input type="text" ngModel name="name" class="form-control" id="name" required>
+            </div>
+            <div class="form-group">
+              <label for="name">メールアドレス</label>
+              <input type="text" ngModel name="email" class="form-control" id="email" required>
+            </div>
+            <div class="form-group">
+              <label for="pass">パスワード</label>
+              <input type="pass" ngModel name="pass" class="form-control" id="pass" required>
+            </div>
+            <div class="modal-footer">
+              <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >追加</button>
+              <button type="button" id="add-user-form" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="userEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateUserModalLabel">ユーザ情報編集 {{editUser?.name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #editForm="ngForm">
+                <div class="form-group">
+                  <label for="name">名前</label>
+                  <input type="text" ngModel="{{editUser?.name}}" name="name" class="form-control" id="name" aria-describedby="name">
+                  <label for="email">メールアドレス</label>
+                  <input type="text" ngModel="{{editUser?.email}}" name="email" class="form-control" id="email" aria-describedby="email">
+                  <label for="name">パスワード</label>
+                  <input type="text" ngModel="{{editUser?.pass}}" name="pass" class="form-control" id="pass" aria-describedby="pass">
+                </div>
+                <input type="hidden" ngModel="{{editUser?.id}}" name="id" class="form-control" id="id" placeholder="id">
+                <input type="hidden" ngModel="{{editUser?.userCode}}" name="userCode" class="form-control" id="userCode">
+                <input type="hidden" ngModel="{{editUser?.win}}" name="win" class="form-control" id="win">
+                <input type="hidden" ngModel="{{editUser?.lose}}" name="lose" class="form-control" id="lose">
+                <input type="hidden" ngModel="{{editUser?.lastLoginDate}}" name="lastLoginDate" class="form-control" id="lastLoginDate">
+                <div class="modal-footer">
+                  <button (click)="onUpdateUser(editForm.value)" data-dismiss="modal" class="btn btn-primary" >保存</button>
+                  <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">閉じる</button>
+                </div>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModelLabel">ユーザ削除</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>{{deleteUser?.name}}を削除しますか?</p>
+              <div class="modal-footer">
+                <button (click)="onDeleteUser(deleteUser.id)" class="btn btn-danger" data-dismiss="modal">はい</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">いいえ</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Notification for no users -->
+<div *ngIf="users?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+<div class="alert" role="alert">
+  <h4 class="alert-heading">ユーザ検索結果なし</h4>
+  <p>ユーザを登録してください。</p>
+</div>
+</div>

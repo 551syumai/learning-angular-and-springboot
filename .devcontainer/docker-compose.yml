@@ -1,0 +1,66 @@
+version: "3"
+services:
+  api:
+    build:
+        context: .
+        dockerfile: Dockerfile.api
+    container_name: api
+    hostname: api
+    volumes:
+      - ../api:/api:delegated
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+    - db
+    tty: true
+    networks:
+     - sample-network
+  db:
+    image: mysql:5.7
+    restart: always
+    container_name: mysql
+    hostname: mysql
+    ports:
+      - 3306:3306
+    command: --port 3306
+    volumes:
+      - ../db/sql:/docker-entrypoint-initdb.d
+      - ../db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=sample
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+    networks:
+      - sample-network
+  adminer:
+    image: adminer
+    container_name: adminer
+    hostname: adminer
+    restart: always
+    ports:
+    - 8001:8080
+    depends_on:
+    - db
+    networks:
+      - sample-network
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - 4200:4200
+    restart: always
+    container_name: web
+    hostname: web
+    volumes:
+      - ../web:/projects:delegated
+    depends_on:
+    - db
+    tty: true
+    networks:
+      - sample-network
+networks:
+    sample-network:
+        driver: bridge
